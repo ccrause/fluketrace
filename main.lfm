@@ -1,0 +1,129 @@
+object Form1: TForm1
+  Left = 319
+  Height = 313
+  Top = 250
+  Width = 761
+  Caption = 'Form1'
+  ClientHeight = 313
+  ClientWidth = 761
+  Menu = MainMenu1
+  OnClose = FormClose
+  OnShow = FormShow
+  object Memo1: TMemo
+    Left = 0
+    Height = 313
+    Top = 0
+    Width = 313
+    Align = alLeft
+    ScrollBars = ssBoth
+    TabOrder = 0
+  end
+  object Splitter1: TSplitter
+    Left = 313
+    Height = 313
+    Top = 0
+    Width = 5
+  end
+  object Chart1: TChart
+    Left = 318
+    Height = 313
+    Top = 0
+    Width = 443
+    AxisList = <    
+      item
+        Intervals.Count = 8
+        Intervals.Options = [aipUseCount]
+        Marks.Margins.Left = 0
+        Marks.Margins.Top = 0
+        Marks.Margins.Right = 0
+        Marks.Margins.Bottom = 0
+        Marks.Format = '%0:.4g'
+        Marks.LabelBrush.Style = bsClear
+        Marks.Range.Max = 6
+        Marks.Range.Min = 3
+        Marks.Range.UseMax = True
+        Marks.Range.UseMin = True
+        Marks.Style = smsCustom
+        Minors = <>
+        Range.Max = 6
+        Range.Min = 3
+        Title.LabelFont.Orientation = 900
+        Title.LabelBrush.Style = bsClear
+      end    
+      item
+        Intervals.Count = 8
+        Intervals.Options = [aipUseCount]
+        Visible = False
+        Alignment = calRight
+        Marks.Format = '%0:.4g'
+        Marks.LabelBrush.Style = bsClear
+        Marks.Range.Max = 2
+        Marks.Range.Min = 1
+        Marks.Style = smsCustom
+        Minors = <>
+        Range.Max = 2
+        Range.Min = 1
+        Title.LabelFont.Orientation = 900
+        Title.LabelBrush.Style = bsClear
+        Transformations = RightAxisTransform
+      end    
+      item
+        Alignment = calBottom
+        Marks.LabelBrush.Style = bsClear
+        Minors = <>
+        Title.LabelBrush.Style = bsClear
+      end>
+    Foot.Brush.Color = clBtnFace
+    Foot.Font.Color = clBlue
+    Legend.BackgroundBrush.Color = clForm
+    Legend.UseSidebar = False
+    Legend.Visible = True
+    Title.Brush.Color = clBtnFace
+    Title.Font.Color = clBlue
+    Title.Text.Strings = (
+      'TAChart'
+    )
+    Align = alClient
+    object ASeries: TLineSeries
+      Title = 'A'
+      AxisIndexY = 0
+      LinePen.Color = clBlue
+      LinePen.Width = 2
+    end
+    object BSeries: TLineSeries
+      Title = 'B'
+      AxisIndexY = 1
+      LinePen.Color = clLime
+      LinePen.Width = 2
+    end
+  end
+  object MainMenu1: TMainMenu
+    left = 524
+    top = 51
+    object MenuItem1: TMenuItem
+      Caption = 'Connect'
+      OnClick = MenuItem1Click
+    end
+    object MenuItem2: TMenuItem
+      Caption = 'Print'
+      Enabled = False
+      OnClick = MenuItem2Click
+    end
+    object MenuItem3: TMenuItem
+      Caption = 'TraceA'
+      Enabled = False
+      OnClick = MenuItem3Click
+    end
+    object MenuItem4: TMenuItem
+      Caption = 'TraceB'
+      OnClick = MenuItem4Click
+    end
+  end
+  object RightAxisTransform: TChartAxisTransformations
+    left = 649
+    top = 203
+    object LinearAxisTransform: TLinearAxisTransform
+      Scale = 3
+    end
+  end
+end
