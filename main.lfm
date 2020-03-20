@@ -1,101 +1,144 @@
 object Form1: TForm1
-  Left = 319
+  Left = 402
   Height = 313
-  Top = 250
+  Top = 238
   Width = 761
-  Caption = 'Form1'
-  ClientHeight = 313
+  ActiveControl = Chart1
+  Caption = 'FLUKE'
+  ClientHeight = 291
   ClientWidth = 761
   Menu = MainMenu1
   OnClose = FormClose
-  OnShow = FormShow
-  object Memo1: TMemo
+  LCLVersion = '2.1.0.0'
+  object PageControl1: TPageControl
     Left = 0
-    Height = 313
+    Height = 267
     Top = 0
-    Width = 313
-    Align = alLeft
-    ScrollBars = ssBoth
-    TabOrder = 0
-  end
-  object Splitter1: TSplitter
-    Left = 313
-    Height = 313
-    Top = 0
-    Width = 5
-  end
-  object Chart1: TChart
-    Left = 318
-    Height = 313
-    Top = 0
-    Width = 443
-    AxisList = <    
-      item
-        Intervals.Count = 8
-        Intervals.Options = [aipUseCount]
-        Marks.Margins.Left = 0
-        Marks.Margins.Top = 0
-        Marks.Margins.Right = 0
-        Marks.Margins.Bottom = 0
-        Marks.Format = '%0:.4g'
-        Marks.LabelBrush.Style = bsClear
-        Marks.Range.Max = 6
-        Marks.Range.Min = 3
-        Marks.Range.UseMax = True
-        Marks.Range.UseMin = True
-        Marks.Style = smsCustom
-        Minors = <>
-        Range.Max = 6
-        Range.Min = 3
-        Title.LabelFont.Orientation = 900
-        Title.LabelBrush.Style = bsClear
-      end    
-      item
-        Intervals.Count = 8
-        Intervals.Options = [aipUseCount]
-        Visible = False
-        Alignment = calRight
-        Marks.Format = '%0:.4g'
-        Marks.LabelBrush.Style = bsClear
-        Marks.Range.Max = 2
-        Marks.Range.Min = 1
-        Marks.Style = smsCustom
-        Minors = <>
-        Range.Max = 2
-        Range.Min = 1
-        Title.LabelFont.Orientation = 900
-        Title.LabelBrush.Style = bsClear
-        Transformations = RightAxisTransform
-      end    
-      item
-        Alignment = calBottom
-        Marks.LabelBrush.Style = bsClear
-        Minors = <>
-        Title.LabelBrush.Style = bsClear
-      end>
-    Foot.Brush.Color = clBtnFace
-    Foot.Font.Color = clBlue
-    Legend.BackgroundBrush.Color = clForm
-    Legend.UseSidebar = False
-    Legend.Visible = True
-    Title.Brush.Color = clBtnFace
-    Title.Font.Color = clBlue
-    Title.Text.Strings = (
-      'TAChart'
-    )
+    Width = 761
+    ActivePage = TabSheet1
     Align = alClient
-    object ASeries: TLineSeries
-      Title = 'A'
-      AxisIndexY = 0
-      LinePen.Color = clBlue
-      LinePen.Width = 2
+    TabIndex = 0
+    TabOrder = 0
+    object TabSheet1: TTabSheet
+      Caption = 'Trace'
+      ClientHeight = 233
+      ClientWidth = 755
+      object Chart1: TChart
+        Left = 0
+        Height = 233
+        Top = 0
+        Width = 755
+        AxisList = <        
+          item
+            Intervals.Count = 8
+            Intervals.Options = [aipUseCount]
+            Marks.Margins.Left = 0
+            Marks.Margins.Top = 0
+            Marks.Margins.Right = 0
+            Marks.Margins.Bottom = 0
+            Marks.Format = '%0:.4g'
+            Marks.LabelBrush.Style = bsClear
+            Marks.Range.Max = 6
+            Marks.Range.Min = 3
+            Marks.Range.UseMax = True
+            Marks.Range.UseMin = True
+            Marks.Style = smsCustom
+            Minors = <>
+            Range.Max = 1
+            Title.LabelFont.Orientation = 900
+            Title.LabelBrush.Style = bsClear
+          end        
+          item
+            Intervals.Count = 8
+            Intervals.Options = [aipUseCount]
+            Visible = False
+            Alignment = calRight
+            Marks.Format = '%0:.4g'
+            Marks.LabelBrush.Style = bsClear
+            Marks.Range.Max = 2
+            Marks.Range.Min = 1
+            Marks.Style = smsCustom
+            Minors = <>
+            Range.Max = 2
+            Range.Min = 1
+            Title.LabelFont.Orientation = 900
+            Title.LabelBrush.Style = bsClear
+            Transformations = RightAxisTransform
+          end        
+          item
+            Alignment = calBottom
+            Marks.LabelBrush.Style = bsClear
+            Minors = <>
+            Title.LabelBrush.Style = bsClear
+          end>
+        Foot.Brush.Color = clBtnFace
+        Foot.Font.Color = clBlue
+        Legend.BackgroundBrush.Color = clForm
+        Legend.UseSidebar = False
+        Legend.Visible = True
+        Title.Brush.Color = clBtnFace
+        Title.Font.Color = clBlue
+        Title.Text.Strings = (
+          'TAChart'
+        )
+        Align = alClient
+        object ASeries: TLineSeries
+          Title = 'A'
+          AxisIndexY = 0
+          LinePen.Color = clBlue
+          LinePen.Width = 2
+        end
+        object BSeries: TLineSeries
+          Title = 'B'
+          AxisIndexY = 1
+          LinePen.Color = clLime
+          LinePen.Width = 2
+        end
+      end
     end
-    object BSeries: TLineSeries
-      Title = 'B'
-      AxisIndexY = 1
-      LinePen.Color = clLime
-      LinePen.Width = 2
+    object TabSheet2: TTabSheet
+      Caption = 'Log'
+      ClientHeight = 233
+      ClientWidth = 755
+      object Memo1: TMemo
+        Left = 0
+        Height = 233
+        Top = 0
+        Width = 750
+        Align = alClient
+        ScrollBars = ssBoth
+        TabOrder = 0
+      end
     end
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Height = 24
+    Top = 267
+    Width = 761
+    BorderWidth = 1
+    Panels = <    
+      item
+        Alignment = taRightJustify
+        Bevel = pbNone
+        Text = 'Port'
+        Width = 80
+      end    
+      item
+        Bevel = pbRaised
+        Width = 100
+      end    
+      item
+        Alignment = taRightJustify
+        Text = 'Status'
+        Width = 80
+      end    
+      item
+        Text = 'Not connected'
+        Width = 50
+      end>
+    ParentColor = False
+    SimplePanel = False
   end
   object MainMenu1: TMainMenu
     left = 524
@@ -116,6 +159,7 @@ object Form1: TForm1
     end
     object MenuItem4: TMenuItem
       Caption = 'TraceB'
+      Enabled = False
       OnClick = MenuItem4Click
     end
   end

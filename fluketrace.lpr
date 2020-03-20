@@ -7,7 +7,7 @@ uses
   cthreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, tachartlazaruspkg, main, serialutils, fluke12x
+  Forms, tachartlazaruspkg, main, serialutils, fluke12x, serialconnect
   { you can add units after this };
 
 {$R *.res}

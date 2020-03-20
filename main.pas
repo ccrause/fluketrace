@@ -6,34 +6,36 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Menus,
-  ExtCtrls, TAGraph, TASeries, TATransformations, fluke12x, types;
+  ExtCtrls, ComCtrls, TAGraph, TASeries, TATransformations, fluke12x, types,
+  serialconnect;
 
 type
 
   { TForm1 }
 
   TForm1 = class(TForm)
-    Chart1: TChart;
     ASeries: TLineSeries;
     BSeries: TLineSeries;
+    Chart1: TChart;
+    Memo1: TMemo;
+    PageControl1: TPageControl;
     RightAxisTransform: TChartAxisTransformations;
     LinearAxisTransform: TLinearAxisTransform;
     MainMenu1: TMainMenu;
-    Memo1: TMemo;
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
-    Splitter1: TSplitter;
+    StatusBar1: TStatusBar;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
-    procedure FormShow(Sender: TObject);
     procedure MenuItem1Click(Sender: TObject);
     procedure MenuItem2Click(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
   private
     FFluke: TFluke12X;
-
     procedure Log(const s: string);
     procedure plotTrace(traceAdmin: TTraceAdmin; traceDataDesc: TTraceData;
       data: TIntegerDynArray; seriesIndex: integer);
@@ -58,19 +60,6 @@ var
 
 { TForm1 }
 
-procedure TForm1.FormShow(Sender: TObject);
-begin
-  if not Assigned(FFluke) then
-  begin
-    FFluke := TFluke12X.Create;
-    FFluke.DoLog := @Log;
-    Application.ProcessMessages;
-    self.MenuItem1Click(nil);
-    Application.ProcessMessages;
-    self.MenuItem3Click(nil);
-  end;
-end;
-
 procedure TForm1.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   if Assigned(FFluke) then
@@ -79,13 +68,48 @@ end;
 
 procedure TForm1.MenuItem1Click(Sender: TObject);
 var
+  SerialForm: TForm2;
   s: string;
+  mr: TModalResult;
 begin
-  if FFluke.connectFluke(portName, s) then
-  begin
-    self.Caption := copy(s, 1, pos(';', s)-1);
-    MenuItem2.Enabled := true;
-    MenuItem3.Enabled := true;
+  SerialForm := TForm2.Create(nil);
+  SerialForm.ShowModal;
+  mr := SerialForm.ModalResult;
+  s := SerialForm.ComboBox1.Text;
+  SerialForm.Free;
+  if mr <> mrOK then
+    exit
+  else
+    portName := s;
+
+  try
+    Screen.Cursor := crHourGlass;
+    StatusBar1.Panels[3].Text := 'Connecting...';
+    Application.ProcessMessages;
+
+    if not Assigned(FFluke) then
+    begin
+      FFluke := TFluke12X.Create;
+      FFluke.DoLog := @Log;
+      if FFluke.connectFluke(portName, s) then
+      begin
+        self.Caption := copy(s, 1, pos(';', s)-1);
+        MenuItem2.Enabled := true;
+        MenuItem3.Enabled := true;
+        MenuItem4.Enabled := true;
+        StatusBar1.Panels[1].Text := portName;
+        StatusBar1.Panels[3].Text := 'OK';
+        MenuItem1.Enabled := false;
+      end
+      else
+      begin
+        StatusBar1.Panels[1].Text := '-';
+        StatusBar1.Panels[3].Text := 'Couldn''t connect';
+        FreeAndNil(FFluke);
+      end;
+    end;
+  finally
+    Screen.Cursor := crDefault;
   end;
 end;
 
@@ -93,19 +117,44 @@ procedure TForm1.MenuItem2Click(Sender: TObject);
 var
   SL: TStringList;
 begin
-  SL := TStringList.Create;
-  FFluke.screenGrabAsPS(TStrings(SL));
-  SL.SaveToFile('screengrab.ps');
+  try
+    Screen.Cursor := crHourGlass;
+    StatusBar1.Panels[3].Text := 'Collecting screengrab...';
+    Application.ProcessMessages;
+    SL := TStringList.Create;
+    FFluke.screenGrabAsPS(TStrings(SL));
+    SL.SaveToFile('screengrab.ps');
+  finally
+    SL.Free;
+    Screen.Cursor := crDefault;
+    StatusBar1.Panels[3].Text := 'OK';
+  end;
 end;
 
 procedure TForm1.MenuItem3Click(Sender: TObject);
 begin
-  traceGrabA;
+  try
+    Screen.Cursor := crHourGlass;
+    StatusBar1.Panels[3].Text := 'Collecting trace A data';
+    Application.ProcessMessages;
+    traceGrabA;
+  finally
+    Screen.Cursor := crDefault;
+    StatusBar1.Panels[3].Text := 'OK';
+  end;
 end;
 
 procedure TForm1.MenuItem4Click(Sender: TObject);
 begin
-  traceGrabB;
+  try
+    Screen.Cursor := crHourGlass;
+    StatusBar1.Panels[3].Text := 'Collecting trace B data';
+    Application.ProcessMessages;
+    traceGrabB;
+  finally
+    Screen.Cursor := crDefault;
+    StatusBar1.Panels[3].Text := 'OK';
+  end;
 end;
 
 procedure TForm1.Log(const s: string);
