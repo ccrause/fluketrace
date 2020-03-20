@@ -46,6 +46,7 @@ type
     // Check acknowledge only
     function checkError(const b: TBytes): boolean;
   public
+    destructor Destroy; override;
     function connectFluke(serialPort: string; out connectString: string): boolean;
     // Execute a command, only wait for acknowledge doesn't wait for return data
     function executeCmd(cmd: string; timeoutms: integer = 200): boolean;
@@ -131,6 +132,12 @@ begin
     '5': Log('No data available')
     else Log('Unknown acknowledge');
   end;
+end;
+
+destructor TFluke12X.Destroy;
+begin
+  if Assigned(FSerial) then
+    FreeAndNil(FSerial);
 end;
 
 function TFluke12X.connectFluke(serialPort: string; out connectString: string

@@ -394,9 +394,9 @@ end;
               end;
             end;
           until FindNext(sr) <> 0;
+          FindClose(sr);
         end;
     finally
-      FindClose(sr);
       // remove trailing comma
       i := length(Result);
       if (i > 0) and (Result[i] = ',') then

@@ -63,7 +63,10 @@ var
 procedure TForm1.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   if Assigned(FFluke) then
+  begin
     FFluke.executeCmd(cmdBaud1200, 500);
+    FreeAndNil(FFluke);
+  end;
 end;
 
 procedure TForm1.MenuItem1Click(Sender: TObject);
