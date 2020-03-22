@@ -3,7 +3,6 @@ object Form1: TForm1
   Height = 313
   Top = 238
   Width = 761
-  ActiveControl = Chart1
   Caption = 'FLUKE'
   ClientHeight = 291
   ClientWidth = 761
@@ -96,6 +95,19 @@ object Form1: TForm1
         end
       end
     end
+    object TabSheet3: TTabSheet
+      Caption = 'Screen capture'
+      ClientHeight = 233
+      ClientWidth = 755
+      object Image1: TImage
+        Left = 0
+        Height = 233
+        Top = 0
+        Width = 755
+        Align = alClient
+        Center = True
+      end
+    end
     object TabSheet2: TTabSheet
       Caption = 'Log'
       ClientHeight = 233
@@ -104,7 +116,7 @@ object Form1: TForm1
         Left = 0
         Height = 233
         Top = 0
-        Width = 750
+        Width = 755
         Align = alClient
         ScrollBars = ssBoth
         TabOrder = 0
@@ -148,7 +160,7 @@ object Form1: TForm1
       OnClick = MenuItem1Click
     end
     object MenuItem2: TMenuItem
-      Caption = 'Print'
+      Caption = 'Screen Capture'
       Enabled = False
       OnClick = MenuItem2Click
     end
