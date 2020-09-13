@@ -37,7 +37,7 @@ uses
 procedure TForm2.FormShow(Sender: TObject);
 begin
   ComboBox1.Items.Delimiter := ',';
-  ComboBox1.Items.Text := GetSerialPortNames;
+  ComboBox1.Items.DelimitedText := GetSerialPortNames;
   if ComboBox1.Items.Count > 0 then
     ComboBox1.ItemIndex := 0;
 end;
