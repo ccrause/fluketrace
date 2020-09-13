@@ -162,9 +162,7 @@ begin
         Log(s);
         connectString := s;
       end;
-    end
-    else
-      exit;
+    end;
   end
   else
     Log('Error connecting to serial...');
