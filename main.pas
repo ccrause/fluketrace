@@ -38,6 +38,8 @@ type
     procedure MenuItem4Click(Sender: TObject);
   private
     FFluke: TFluke12X;
+    OOM: double;  // order of magnitute scaling
+    xAxisPrefix: char; // OOM prefix to add to x axis UOM
     procedure Log(const s: string);
     procedure convertFlukePSToPNG(const SL: TStrings);
     procedure plotTrace(traceAdmin: TTraceAdmin; traceDataDesc: TTraceData;
@@ -87,6 +89,10 @@ begin
     exit
   else
     portName := s;
+
+  // No scaling
+  OOM := 1;
+  xAxisPrefix := ' ';
 
   try
     Screen.Cursor := crHourGlass;
@@ -229,7 +235,7 @@ var
   i: integer;
   x, y, min, max, scale, offset: double;
 begin
-  Chart1.AxisList.BottomAxis.Title.Caption := flukeUnits[traceadmin.x_unit];
+  Chart1.AxisList.BottomAxis.Title.Caption := xAxisPrefix + flukeUnits[traceadmin.x_unit];
   Chart1.AxisList.BottomAxis.Title.Visible := true;
 
   // Rely on y-axis indexing the same as series index
@@ -265,13 +271,13 @@ begin
     if traceDataDesc.MinMaxPairs then
     begin
       y := (data[i] + data[i+1]);
-      TLineSeries(Chart1.Series.Items[seriesIndex]).AddXY(x*traceadmin.x_res,
+      TLineSeries(Chart1.Series.Items[seriesIndex]).AddXY(OOM*x*traceadmin.x_res,
                   y*traceadmin.y_res + traceadmin.y_zero);
     end
     else
     begin
       y := data[i];
-      TLineSeries(Chart1.Series.Items[seriesIndex]).AddXY(x*traceadmin.x_res,
+      TLineSeries(Chart1.Series.Items[seriesIndex]).AddXY(OOM*x*traceadmin.x_res,
         y*traceadmin.y_res + traceadmin.y_zero);
     end;
   end;
@@ -282,10 +288,36 @@ var
   TA: TTraceAdmin;
   TD: TTraceData;
   data: TIntegerDynArray;
+  //OOM: double;  // order of magnitute of scale
+  max: double;
 begin
   result := FFluke.traceGrab(cmdTraceGrabA_setup_data, TA, TD, data);
   if result then
+  begin
+    max := TA.x_res*TD.numSamples;
+    if max < 1e-6 then
+    begin
+      OOM := 1e9; // nano
+      xAxisPrefix := 'n';
+    end
+    else if max < 1e-3 then
+    begin
+      OOM := 1e6; // micro
+      xAxisPrefix := 'u'
+    end
+    else if max < 1 then
+    begin
+      OOM := 1e3; // milli
+      xAxisPrefix := 'm';
+    end
+    else
+    begin
+      OOM := 1;
+      xAxisPrefix := ' ';
+    end;
+
     plotTrace(TA, TD, data, 0);
+  end;
 end;
 
 function TForm1.traceGrabB: boolean;

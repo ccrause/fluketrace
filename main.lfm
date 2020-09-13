@@ -8,7 +8,7 @@ object Form1: TForm1
   ClientWidth = 761
   Menu = MainMenu1
   OnClose = FormClose
-  LCLVersion = '2.1.0.0'
+  LCLVersion = '2.0.10.0'
   object PageControl1: TPageControl
     Left = 0
     Height = 267
@@ -65,7 +65,12 @@ object Form1: TForm1
             Transformations = RightAxisTransform
           end        
           item
+            Intervals.Count = 10
+            Intervals.MaxLength = 20
+            Intervals.MinLength = 5
+            Intervals.Options = [aipUseCount, aipUseNiceSteps]
             Alignment = calBottom
+            Marks.Margins.Right = 10
             Marks.LabelBrush.Style = bsClear
             Minors = <>
             Title.LabelBrush.Style = bsClear
@@ -90,7 +95,7 @@ object Form1: TForm1
         object BSeries: TLineSeries
           Title = 'B'
           AxisIndexY = 1
-          LinePen.Color = clLime
+          LinePen.Color = clRed
           LinePen.Width = 2
         end
       end
@@ -153,8 +158,8 @@ object Form1: TForm1
     SimplePanel = False
   end
   object MainMenu1: TMainMenu
-    left = 524
-    top = 51
+    Left = 524
+    Top = 51
     object MenuItem1: TMenuItem
       Caption = 'Connect'
       OnClick = MenuItem1Click
@@ -176,8 +181,8 @@ object Form1: TForm1
     end
   end
   object RightAxisTransform: TChartAxisTransformations
-    left = 649
-    top = 203
+    Left = 649
+    Top = 203
     object LinearAxisTransform: TLinearAxisTransform
       Scale = 3
     end
