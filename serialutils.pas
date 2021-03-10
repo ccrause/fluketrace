@@ -69,9 +69,10 @@ uses
   {$IFDEF UNIX}
   termio, BaseUnix, errors;
   {$ELSE}
-  windows;
+  windows, registry, classes;
   {$ENDIF}
 
+  {$IFNDEF MSWINDOWS}
   { Translated from include/linux/serial.h }
   type
     TSerialStruct = packed record
@@ -94,7 +95,7 @@ uses
       port_high: Cardinal;
       iomap_base: LongWord; // cookie passed into ioremap
     end;
-
+  {$ENDIF not MSWINDOWS}
 { TSerialObj }
 
 {$ifdef windows}
