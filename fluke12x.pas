@@ -169,9 +169,11 @@ begin
 end;
 
 function TFluke12X.executeCmd(cmd: string; timeoutms: integer): boolean;
+const
+  abortAfterRetries = 3;
 var
   b: TBytes;
-  len, i: integer;
+  len, i, noReplyCount: integer;
 begin
   result := false;
   if fSerial.Write(cmd[1], length(cmd)) <> length(cmd) then
@@ -180,10 +182,13 @@ begin
   begin
     setlength(b, 2); // only read response byte and <cr>
     i := 0;  // offset for new data in buffer
+    noReplyCount := 0;
     repeat
       len := fSerial.ReadTimeout(b[i], length(b)-i, timeoutms);
       i := i + len;
-    until (i > 1);
+      if len = 0 then
+        inc(noReplyCount);
+    until (i > 1) or (noReplyCount > abortAfterRetries);
 
     if i > 1 then
       result := checkError(b);
