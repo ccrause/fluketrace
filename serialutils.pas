@@ -189,6 +189,12 @@ begin
 end;
 
 procedure TSerialObj.Break;
+{$if defined(linux) and defined(cpui386)}
+// These constants are missing for cpui386 in rtl/linux/termios.inc
+const
+  TIOCSBRK =    $5427;
+  TIOCCBRK =    $5428;
+{$endif}
 var
   status: {$IFDEF WINDOWS}longbool;{$ELSE}integer;{$ENDIF}
   b: word;
